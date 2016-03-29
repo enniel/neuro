@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: y0rsh
- * Date: 18.03.16
- * Time: 19:44
- */
 
 namespace Neural\Neuron;
 

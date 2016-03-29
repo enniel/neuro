@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: y0rsh
- * Date: 17.03.16
- * Time: 20:52
- */
 
 namespace Neural\Neuron;
-
 
 class Neuron
 {

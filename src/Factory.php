@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: y0rsh
- * Date: 17.03.16
- * Time: 19:02
- */
+
 namespace Neural;
 
 use Neural\Network\Perceptron;

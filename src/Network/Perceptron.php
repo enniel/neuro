@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: y0rsh
- * Date: 17.03.16
- * Time: 18:38
- */
 
 namespace Neural\Network;
 
@@ -57,10 +51,6 @@ class Perceptron extends AbstractNetwork {
          */
         foreach ($this->neurons as $neuron) {
             $neuron->putSignal((($neuron->getSummarySignal() - $this->threshold) > 0)  ? 1 : 0);
-//            var_dump($this->threshold);
-//            var_dump($neuron->getSummarySignal());
-//            var_dump($neuron->getSummarySignal() > $this->threshold);
-//            var_dump((($neuron->getSummarySignal() - $this->threshold) > 0));
         }
         return $this->result->getResult();
     }
@@ -75,11 +65,6 @@ class Perceptron extends AbstractNetwork {
                 $this->neurons[$result]->correctInputSynapses(-1 * $this->learningRate);
             }
         }
-
-
-//        $error = $expectedValue - $result;
-//        $delta = $error * $this->learningRate;
-//        $this->neurons[0]->correctInputSynapses($delta);
     }
 
     public function learn(array $rows)
