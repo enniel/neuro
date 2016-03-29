@@ -1,0 +1,11 @@
+{
+    "name": "y0rsh/neuro",
+    "description": "PHP Artificial neural network library",
+    "authors": [
+        {
+            "name": "Stanislav Vorobyov",
+            "email": "y0rsh747@gmail.com"
+        }
+    ],
+    "require": {}
+}
