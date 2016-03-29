@@ -7,5 +7,7 @@
             "email": "y0rsh747@gmail.com"
         }
     ],
-    "require": {}
+    "autoload": {
+        "psr-4": {"Neural\\": "src/"}
+    }
 }
