@@ -38,7 +38,6 @@ class Neuron
         foreach ($this->input as $synapse) {
             $synapse->increaseWeight($synapse->getRawSignal() * $delta);
         }
-        echo "+----\n";
     }
 
     public function putSignal($signal)

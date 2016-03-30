@@ -2,12 +2,18 @@
 
 namespace Neural\Network;
 
+use Monolog\Logger;
 use Neural\Factory;
 use Neural\Neuron\Neuron;
 use Neural\Neuron\ResultNeuron;
 use Neural\Neuron\Sensor;
 use Neural\Neuron\Synapse;
 
+/**
+ * Class Perceptron
+ * @package Neural\Network
+ * @property \Psr\Log\LoggerInterface $logger
+ */
 class Perceptron extends AbstractNetwork {
     private $defaultOptions = [
         'threshold' => 0.5,
@@ -113,5 +119,15 @@ class Perceptron extends AbstractNetwork {
                 $synapse->setWeight($weightsRow[$i]);
             }
         }
+    }
+
+    public function setLogger(Logger $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    public function getLogger()
+    {
+        return $this->logger;
     }
 } 

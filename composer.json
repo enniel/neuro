@@ -9,5 +9,8 @@
     ],
     "autoload": {
         "psr-4": {"Neural\\": "src/"}
+    },
+    "require": {
+        "monolog/monolog": "^1.18"
     }
 }
