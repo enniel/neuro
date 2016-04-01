@@ -2,18 +2,25 @@
 
 namespace Neural\Neuron;
 
-
+use Neural\Network\AbstractNetwork;
+/**
+ * Class Synapse
+ * @package Neural\Neuron
+ * @property AbstractNetwork $network
+ */
 class Synapse {
     private $in;
     private $out;
     private $weight;
     private $signal;
+    private $network;
 
-    public function __construct(Neuron $in, Neuron $out, $weight = 0)
+    public function __construct(Neuron $in, Neuron $out, $weight = 0, AbstractNetwork $network)
     {
         $this->in = $in;
         $this->out = $out;
         $this->weight = $weight;
+        $this->network = $network;
         $in->addOutputSynapse($this);
         $out->addInputSynapse($this);
     }
@@ -35,10 +42,9 @@ class Synapse {
 
     public function increaseWeight($delta)
     {
-        echo "Correcting weight on {$delta}; ";
-
+        $this->network->log('Change weight on ' . $delta);
         $this->weight += $delta;
-        echo "Weight: {$this->weight}\n";
+        $this->network->log('Weight: ' . $this->weight);
     }
 
     public function decreaseWeight($delta)

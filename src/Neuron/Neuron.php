@@ -2,10 +2,22 @@
 
 namespace Neural\Neuron;
 
+use Neural\Network\AbstractNetwork;
+/**
+ * Class Neuron
+ * @package Neural\Neuron
+ * @property AbstractNetwork $network
+ */
 class Neuron
 {
     protected $input = [];
     protected $output = [];
+    private $network;
+
+    public function __configure(AbstractNetwork $network)
+    {
+        $this->network = $network;
+    }
 
     public function addOutputSynapse(Synapse $synapse)
     {

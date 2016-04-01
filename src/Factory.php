@@ -2,6 +2,7 @@
 
 namespace Neural;
 
+use Neural\Network\AbstractNetwork;
 use Neural\Network\Perceptron;
 use Neural\Neuron\Sensor;
 use Neural\Neuron\Neuron;
@@ -22,33 +23,33 @@ class Factory {
         return $perceptron;
     }
 
-    static public function createSensors($count)
+    static public function createSensors($count, AbstractNetwork $network)
     {
         $sensors = [];
 
         for ($i = 0; $i < $count; $i++) {
-            $sensors[] = new Sensor();
+            $sensors[] = new Sensor($network);
         }
 
         return $sensors;
     }
 
-    static public function createNeurons($count)
+    static public function createNeurons($count, AbstractNetwork $network)
     {
-        $sensors = [];
+        $neurons = [];
 
         for ($i = 0; $i < $count; $i++) {
-            $sensors[] = new Neuron();
+            $neurons[] = new Neuron($network);
         }
 
-        return $sensors;
+        return $neurons;
     }
 
-    static public function createSynapses(array $layer1, array $layer2, $weight = 0)
+    static public function createSynapses(array $layer1, array $layer2, $weight = 0, AbstractNetwork $network)
     {
         foreach ($layer1 as $neuron1) {
             foreach ($layer2 as $neuron2) {
-                new Synapse($neuron1, $neuron2, $weight);
+                new Synapse($neuron1, $neuron2, $weight, $network);
             }
         }
     }

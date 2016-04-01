@@ -25,16 +25,17 @@ class Perceptron extends AbstractNetwork {
     private $hasCorrections = false;
     private $sensors = [];
     private $neurons = [];
+    private $logger;
     public function __construct($options) {
         $options = array_merge($this->defaultOptions, $options);
         $this->threshold = $options['threshold'];
         $this->learningRate = $options['learning.rate'];
-        $this->sensors = Factory::createSensors($options['sensor.count']);
-        $this->neurons = Factory::createNeurons($options['neuron.count']);;
+        $this->sensors = Factory::createSensors($options['sensor.count'], $this);
+        $this->neurons = Factory::createNeurons($options['neuron.count'], $this);
         $this->result = new ResultNeuron();
         $this->options = $options;
-        Factory::createSynapses($this->sensors, $this->neurons);
-        Factory::createSynapses($this->neurons, [$this->result], 1);
+        Factory::createSynapses($this->sensors, $this->neurons, 0, $this);
+        Factory::createSynapses($this->neurons, [$this->result], 1, $this);
     }
 
     public function putData(array $data)
@@ -42,6 +43,7 @@ class Perceptron extends AbstractNetwork {
         /**
          * @var Sensor $sensor
          */
+        $this->log('Put data:', $data);
         foreach($data as $key => $signal) {
             $sensor = $this->sensors[$key];
             $sensor->putSignal($signal);
@@ -58,10 +60,14 @@ class Perceptron extends AbstractNetwork {
         foreach ($this->neurons as $neuron) {
             $neuron->putSignal((($neuron->getSummarySignal() - $this->threshold) > 0)  ? 1 : 0);
         }
+
+        $this->log('Result: ' . $this->result->getResult());
+
         return $this->result->getResult();
     }
 
     public function train($data, $expectedValue) {
+        $this->log('Train: ' . $expectedValue);
         $result = $this->putData($data);
 
         if ($result !== $expectedValue) {
@@ -75,6 +81,7 @@ class Perceptron extends AbstractNetwork {
 
     public function learn(array $rows)
     {
+        $this->log('Start learning');
         $this->hasCorrections = true;
         while ($this->hasCorrections) {
             $this->hasCorrections = false;
@@ -84,16 +91,20 @@ class Perceptron extends AbstractNetwork {
                 $this->train($data, $expectedValue);
             }
         }
+        $this->log('End learning');
     }
 
     public function toJson()
     {
-        $data = [];
-        $weights = [];
         /**
          * @var Sensor $sensor
          * @var Synapse $synapse
          */
+
+        $this->log('Convert to json');
+
+        $data = [];
+        $weights = [];
         foreach ($this->sensors as $sensor) {
             $weightsRow = [];
             foreach($sensor->getOutputSynapses() as $synapse) {
@@ -113,6 +124,8 @@ class Perceptron extends AbstractNetwork {
          * @var Sensor $sensor
          * @var Synapse $synapse
          */
+        $this->log('Setup weights');
+
         foreach ($this->sensors as $key => $sensor) {
             $weightsRow = $weights[$key];
             foreach($sensor->getOutputSynapses() as $i => $synapse) {
@@ -129,5 +142,12 @@ class Perceptron extends AbstractNetwork {
     public function getLogger()
     {
         return $this->logger;
+    }
+
+    public function log($message, array $context = [])
+    {
+        if (!is_null($this->logger)) {
+            $this->logger->info($message, $context);
+        }
     }
 } 
